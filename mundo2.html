@@ -1,0 +1,54 @@
+<html>
+  <head>
+    <script src="https://aframe.io/releases/1.8.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@gh-pages/examples/js/remix-dropdown.js"></script>
+    <script src="scripts/objeto-interactivo.js"></script>
+    
+  </head>
+  <body>
+    <a-scene>
+        <a-assets>
+            
+            <a-asset-item id="escena2" src="modelos/escena2.glb"></a-asset-item>
+            <a-asset-item id="cuaderno" src="modelos/cuaderno.glb"></a-asset-item>
+
+        </a-assets>
+
+    
+        <!--Imagen 360 -->
+        <a-sky src="img/imagen360.png" rotation="0 -130 0"></a-sky>
+
+
+        <a-entity gltf-model="#escena2" position="0 0 0" scale="1 1 1"></a-entity>
+
+        <!-- Cámara -->
+        <a-entity id="camara" camera look-controls wasd-controls position="-6 1.6 -0.090" rotation="90 0 0">
+            <a-cursor raycaster="objects: [link], a-link, .raycastable"></a-cursor>
+        </a-entity>
+        <!-- /Cámara -->
+
+        <!--- Cuaderno (posición de prueba, alejada del portal) -->
+        <a-entity id="cuadernoObjeto1" gltf-model="#cuaderno"
+        position="4.36 0.75 0" scale="0.5 0.5 0.5"
+        rotation="0 0 0"
+        objeto-interactivo="texto: Este es el primer cuaderno de la historia. 
+        Aquí podrás contar lo que quieras sobre este punto de la narrativa.">
+        </a-entity>
+
+        <!--- Panel de texto --->
+        <a-entity id="panelTexto" position="4.36 0.75 0" visible="false">
+          <a-plane color="#222" width="2" height="1" opacity="0.85" class="raycastable"></a-plane>
+          <a-text value="" color="white" width="1.8" align="center" position="0 0 0.01"></a-text>
+        </a-entity>
+        <!--- /Panel de texto --->
+
+    </a-scene>
+    <script>
+      document.querySelector('a-scene').addEventListener('loaded', function () {
+        document.querySelector('#panelTexto').addEventListener('click', function () {
+          this.setAttribute('visible', false);
+        });
+      });
+    </script>
+  </body>
+</html>
