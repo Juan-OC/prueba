@@ -1,8 +1,10 @@
 <html>
   <head>
+    <meta charset="utf-8">
     <script src="https://aframe.io/releases/1.8.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@gh-pages/examples/js/remix-dropdown.js"></script>
     <script src="scripts/objeto-interactivo.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aframe-extras@7.5.0/dist/aframe-extras.min.js"></script>
     
   </head>
   <body>
@@ -18,6 +20,11 @@
         <!--Imagen 360 -->
         <a-sky src="img/imagen360.png" rotation="0 -130 0"></a-sky>
 
+        <a-text font="kelsonsans" value="para salir de un cuadro 
+        de texto, dale click 
+        nuevamente al libro" width="6" position="-7.276 2 -2.417"
+              rotation="0 15 0"></a-text>
+
         <!--- Portal -->
 
         <a-link 
@@ -30,36 +37,85 @@
 
         <!--- /Portal -->
 
-        <a-entity gltf-model="#escena" position="0 0 0" scale="1 1 1"></a-entity>
+        <a-entity gltf-model="#escena" static-body position="0 0 0" scale="1 1 1"></a-entity>
 
         <!-- Cámara -->
-        <a-entity id="camara" camera look-controls wasd-controls position="-6 1.6 -0.090" rotation="90 0 0">
+        <a-entity id="camara" camera look-controls wasd-controls kinematic-body position="-6 1.6 -0.090" rotation="90 0 0">
             <a-cursor raycaster="objects: [link], a-link, .raycastable"></a-cursor>
-        </a-entity>
-        <!-- /Cámara -->
+ 
+          <!-- Panel HUD Fijo -->
+            <a-entity id="hud"
+          hud-panel
+          position="0 0 -1.2"
+          visible="false">
 
-        <!--- Cuaderno (posición de prueba, alejada del portal) -->
-        <a-entity id="cuadernoObjeto1" gltf-model="#cuaderno"
-        position="4.36 0.75 0" scale="0.5 0.5 0.5"
-        rotation="0 0 0"
-        objeto-interactivo="texto: Este es el primer cuaderno de la historia. 
-        Aquí podrás contar lo que quieras sobre este punto de la narrativa.">
+            <!-- Fondo del Panel (Ancho: 1.0, Alto: 1.2) -->
+            <a-plane class="hud-fondo"
+                    color="#1a1a1a" opacity="0.95"
+                    width="1.0" height="1.2"
+                    position="0 0 0"></a-plane>
+
+            <!-- Imagen Superior (Ancho: 0.9, centrada) -->
+            <a-entity class="hud-imagen"
+                      geometry="primitive: plane; width: 0.9; height: 0.5"
+                      material="shader: flat; transparent: true"
+                      position="0 0.28 0.01"
+                      visible="false"></a-entity>
+
+            <!-- Título (Centrado en X=-0.42 con respecto al borde del plano, Z=0.01) -->
+            <a-entity class="hud-titulo"
+                      position="-0.05 -0.03 0.01"
+                      text="value: ; color: #FFFFFF; width: 0.84; wrapCount: 28; align: left; baseline: top; font: roboto"></a-entity>
+
+            <!-- Descripción (Inicia debajo del título, Z=0.01) -->
+            <a-entity class="hud-texto"
+                      position=" 0.036 -0.1 0.070"
+                      text="value: ; color: #CCCCCC; width: 0.84; wrapCount: 30; align: left; baseline: top; font: roboto"></a-entity>
+          </a-entity>
+        </a-entity>
+        <!-- /hud-->
+
+
+        <!--- Cuaderno 1 -->
+         <a-entity id="cuadernoObjeto1" 
+                  gltf-model="#cuaderno"
+                  position="-3 0 0" 
+                  scale="0.5 0.5 0.5"
+                  rotation="0 0 0"
+                  class="raycastable"
+                  objeto-interactivo="titulo: Los bosques de Maine; texto: Estuve 30 anos en el bosque, era tranquilo, quieto, y recuerdo que para calentarme en los frios inviernos utilice las hojas arracandas de libros para tener una barrera entre el colchon y el piso congelado; imagen: img/img1.jpg"
+                  contorno-interactivo="color: #FFD700; grosor: 1.04">
         </a-entity>
 
-        <!--- Panel de texto --->
-        <a-entity id="panelTexto" position="4.36 0.75 0" visible="false">
-          <a-plane color="#222" width="2" height="1" opacity="0.85" class="raycastable"></a-plane>
-          <a-text value="" color="white" width="1.8" align="center" position="0 0 0.01"></a-text>
+        <!--- Cuaderno 2 -->
+         <a-entity id="cuadernoObjeto2" 
+                  gltf-model="#cuaderno"
+                  position="-0.984 0 4.438" 
+                  scale="0.5 0.5 0.5"
+                  rotation="0 -46.868 0"
+                  class="raycastable"
+                  objeto-interactivo="titulo: el invierno; texto: Las noches mas frias, tuve que mantenerme despierto para no congelarme, sabia muy profundamente que si me dejaba llevar por el sueño, lo más probable es que nunca volveria a despertar.; imagen: img/img2.png"
+                  contorno-interactivo="color: #FFD700; grosor: 1.04">
         </a-entity>
-        <!--- /Panel de texto --->
 
-    </a-scene>
-    <script>
-      document.querySelector('a-scene').addEventListener('loaded', function () {
-        document.querySelector('#panelTexto').addEventListener('click', function () {
-          this.setAttribute('visible', false);
-        });
-      });
-    </script>
+        <a-entity id="cuadernoObjeto3" 
+                  gltf-model="#cuaderno"
+                  position="8.182 0 2.264" 
+                  scale="0.5 0.5 0.5"
+                  rotation="0 95.340 0"
+                  class="raycastable"
+                  objeto-interactivo="titulo: La mujer de blanco; texto: Una vez, estuve a punto de morir, y logre ver en la distancia una mujer en una capa blanca, una muerte hecha de hielo que venia por mi. Aveces pienso en volver, y dejar que me lleve...; imagen: img/img3.png"
+                  contorno-interactivo="color: #FFD700; grosor: 1.04">
+        </a-entity>
+
+        <a-entity id="cuadernoObjeto4" 
+                  gltf-model="#cuaderno"
+                  position="17.934 0 -5.263" 
+                  scale="0.5 0.5 0.5"
+                  rotation="0 -39.753 0"
+                  class="raycastable"
+                  objeto-interactivo="titulo: hambre; texto: Mi unica forma de sobrevivir era robando, sabia que estaba mal, sabia que eso me iba a causar algún mal en el futuro, pero el hambre, el frio... era insoportable.; imagen: img/img4.png"
+                  contorno-interactivo="color: #FFD700; grosor: 1.04">
+        </a-entity>
   </body>
 </html>
